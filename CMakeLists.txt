@@ -28,11 +28,11 @@ include_directories(${CERES_INCLUDE_DIRS})
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-find_package(VTK 7 REQUIRED)
+find_package(VTK 7 REQUIRED PATHS "${CMAKE_SOURCE_DIR}/external/vtk7/VTK-7.1.1/build" NO_DEFAULT_PATH)
 include(${VTK_USE_FILE})
 include_directories(${VTK_INCLUDE_DIRS})
 
-find_package(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED PATHS "${CMAKE_SOURCE_DIR}/external/opencv/opencv-2.4.13.6/build" NO_DEFAULT_PATH)
 find_package(Boost REQUIRED)
 
 find_package(VIZ REQUIRED)

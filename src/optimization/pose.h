@@ -263,7 +263,7 @@ public:
   virtual ceres::CallbackReturnType operator()(const ceres::IterationSummary& summary) {
     detection.pose = gvl::computePoseFromRotTransScale(detection.rotation_y, detection.translation);
     std::vector<Eigen::Vector3d> vertices, normals;
-    viz::Pointcloud tsdf_pointcloud;
+    // viz::Pointcloud tsdf_pointcloud;
     //visualizeGradients(detection, vertices, normals, tsdf_pointcloud);
     visualization.hideAllActors();
     //visualization.addPointcloud(tsdf_pointcloud);

@@ -1,0 +1,3 @@
+[submodule "kitti_eval"]
+	path = kitti_eval
+	url = https://github.com/prclibo/kitti_eval.git

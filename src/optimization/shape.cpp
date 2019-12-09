@@ -79,7 +79,7 @@ double optimize_shape(gvl::Detection& detection, bool visualize, int* it) {
   ceres::Solver::Summary summary;
   Solve(options, &problem, &summary);
   if (visualize) std::cout << summary.FullReport() << std::endl;
-  else std::cout << summary.BriefReport() << std::endl;
+  // else std::cout << summary.BriefReport() << std::endl;
 
   // Reconstruct high-dimension shape from -------------------------------------------------------
   detection.shape = V.block<p, r>(0,0)*detection.z + mean;

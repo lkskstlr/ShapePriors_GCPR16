@@ -338,15 +338,17 @@ std::vector<Eigen::Matrix4d> readCalibrationFile(std::string &calibration_path) 
   if (calibration_file.is_open()) {
     // Each line corresponds to a matrix
     while (getline(calibration_file,line)) {
-      std::vector<std::string> values;
-      boost::split( values, line, boost::is_any_of(" ") );
-      Eigen::Matrix4d matrix;
-      matrix << std::stod(values[1]), std::stod(values[2]), std::stod(values[3]),
-          std::stod(values[4]), std::stod(values[5]), std::stod(values[6]),
-          std::stod(values[7]), std::stod(values[8]), std::stod(values[9]),
-          std::stod(values[10]), std::stod(values[11]), std::stod(values[12]),
-          0.0, 0.0, 0.0, 1.0;
-      projection_matrices.push_back(matrix);
+      if ((line.compare(0, 4, "P2: ") == 0) || (line.compare(0, 4, "P3: ") == 0)) {
+        std::vector<std::string> values;
+        boost::split( values, line, boost::is_any_of(" ") );
+        Eigen::Matrix4d matrix;
+        matrix << std::stod(values[1]), std::stod(values[2]), std::stod(values[3]),
+            std::stod(values[4]), std::stod(values[5]), std::stod(values[6]),
+            std::stod(values[7]), std::stod(values[8]), std::stod(values[9]),
+            std::stod(values[10]), std::stod(values[11]), std::stod(values[12]),
+            0.0, 0.0, 0.0, 1.0;
+        projection_matrices.push_back(matrix);
+      }
     }
     calibration_file.close();
   } else {
@@ -448,6 +450,9 @@ std::vector<BoundingBox> readDetectionsFromFile(std::string &detections_path)
   std::ifstream detections_file (detections_path.c_str());
   if (detections_file.is_open()) {
     while ( getline (detections_file,line) ) {
+      if (line.compare(0, 4, "Car ") != 0){
+        continue;
+      }
       std::vector<std::string> values;
       boost::split( values, line, boost::is_any_of(" ") );
       bool isTracking = (values.size()>16);
@@ -473,7 +478,11 @@ std::vector<BoundingBox> readDetectionsFromFile(std::string &detections_path)
       bb.y = std::stod(values[12+offset]);
       bb.z = std::stod(values[13+offset]);
       bb.rotation_y = std::stod(values[14+offset])-M_PI/2;
-      bb.score = std::stod(values[15+offset]);
+      if (values.size() < 16 + offset) {
+        bb.score = 0.0;
+      } else {
+        bb.score = std::stod(values[15 + offset]);
+      }
       /*if (isTracking) {
         bb.r = 1;
       }else{

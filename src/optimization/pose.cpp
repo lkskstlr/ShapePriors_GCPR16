@@ -82,7 +82,7 @@ double optimize_pose(gvl::Detection& detection, bool visualize, int* it) {
   ceres::Solver::Summary summary;
   Solve(pose_options, &pose_problem, &summary);
   if (visualize) std::cout << summary.FullReport() << std::endl;
-  else std::cout << summary.BriefReport() << std::endl;
+  // else std::cout << summary.BriefReport() << std::endl;
 
   // Applying new pose
   detection.pose = gvl::computePoseFromRotTransScale(detection.rotation_y, detection.translation);

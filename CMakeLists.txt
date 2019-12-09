@@ -61,3 +61,6 @@ target_link_libraries(GVL ${OpenCV_LIBS} ${VTK_LIBRARIES} ${CERES_LIBRARIES} ${M
 
 add_executable(ShapePrior "apps/shapeprior.cpp" )
 target_link_libraries(ShapePrior GVL ${OpenCV_LIBS} ${CERES_LIBRARIES} ${MORE_LIBS} ${VIZ_LIBRARIES}) #${VTK_LIBRARIES}
+
+add_executable(kitti_object "apps/kitti_object.cpp" )
+target_link_libraries(kitti_object GVL ${OpenCV_LIBS} ${CERES_LIBRARIES} ${MORE_LIBS} ${VIZ_LIBRARIES})

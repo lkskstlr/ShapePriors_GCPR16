@@ -34,14 +34,14 @@ add_compile_options(-std=c++0x -fPIC -msse3 -Wall -fopenmp -Wno-unused-variable)
 #set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules/" ${CMAKE_MODULE_PATH})
 
 # VTK required
-find_package(VTK REQUIRED)
+find_package(VTK REQUIRED PATHS "${CMAKE_SOURCE_DIR}/../vtk7/VTK-7.1.1/build" NO_DEFAULT_PATH)
 include(${VTK_USE_FILE})
 include_directories(${VTK_INCLUDE_DIRS})
 
 # Eigen required
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
-find_package(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED PATHS "${CMAKE_SOURCE_DIR}/../opencv/opencv-2.4.13.6/build" NO_DEFAULT_PATH)
 
 # Create Library VIZ
 file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")

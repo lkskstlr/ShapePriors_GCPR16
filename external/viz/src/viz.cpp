@@ -112,6 +112,9 @@ Visualization::Visualization(int width, int height, int renderers_count, bool ve
   assert(renderers_count>0);
   //assert(renderers_count<5); // more then 4 renderers not supported right now (need to select proper viewports)
 
+  // BugFix: https://github.com/VisualComputingInstitute/ShapePriors_GCPR16/issues/1
+  vtkObject::GlobalWarningDisplayOff();
+
   // Initiliaze renderers
   renderers.resize(renderers_count);
   for (int i=0; i<renderers_count; i++){

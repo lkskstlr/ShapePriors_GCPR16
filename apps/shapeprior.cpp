@@ -51,12 +51,10 @@ struct parameters {
   int last;
   int length;
   std::string seq_string;
-  std::string poses_path;
   std::string detections_prefix;
   std::string disparity_prefix;
   std::string calibration_path;
   std::string groundplane_prefix;
-  std::string results_prefix;
   bool interactive;
 
   parameters(int argc, char** argv) {
@@ -66,13 +64,11 @@ struct parameters {
     last = std::stoi(std::string{argv[3]});
     length = std::stoi(std::string{argv[4]});
     seq_string = std::string{argv[5]};
-    poses_path = std::string{argv[6]};
-    detections_prefix = std::string{argv[7]};
-    disparity_prefix = std::string{argv[8]};
-    calibration_path = std::string{argv[9]};
-    groundplane_prefix = std::string{argv[10]};
-    results_prefix = std::string{argv[11]};
-    interactive = std::string{argv[12]}.compare("1")==0;
+    detections_prefix = std::string{argv[6]};
+    disparity_prefix = std::string{argv[7]};
+    calibration_path = std::string{argv[8]};
+    groundplane_prefix = std::string{argv[9]};
+    interactive = std::string{argv[10]}.compare("1")==0;
 }
 
 void print(void) {
@@ -81,12 +77,10 @@ void print(void) {
   std::cout << last << " ";
   std::cout << length << " ";
   std::cout << seq_string << " ";
-  std::cout << poses_path << " ";
   std::cout << detections_prefix << " ";
   std::cout << disparity_prefix << " ";
   std::cout << calibration_path << " ";
   std::cout << groundplane_prefix << " ";
-  std::cout << results_prefix << " ";
   std::cout << interactive << std::endl;
 }
 };
@@ -100,9 +94,6 @@ int main(int argc, char** argv) {
 
   // Read calibration, poses
   std::vector<Eigen::Matrix4d> projection_matrices = gvl::readCalibrationFile(params.calibration_path);
-  std::vector<Eigen::Matrix4d> poses = gvl::readPosesFromFile(params.poses_path);
-  std::vector<Eigen::Matrix4d> posesInv; posesInv.reserve(poses.size());
-  for(auto& p : poses) posesInv.push_back(p.inverse());
 
   // Build K matrix
   Eigen::Matrix3d K = projection_matrices.at(0).block<3,3>(0,0);
@@ -207,7 +198,7 @@ int main(int argc, char** argv) {
   }
 
   // Prepare visualization
-  std::string filename = params.seq_string+"_"+gvl::zfill(t,2);
+  std::string filename = params.seq_string+"_"+gvl::zfill(t, params.length);
   std::string path;
 
   // Visualization used for depth rendering
